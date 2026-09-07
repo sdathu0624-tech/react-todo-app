@@ -13,10 +13,26 @@ function TodoApp() {
     const newTask = {
       id: Date.now(),
       text: inputValue,
+      status: "todo",              
     };
 
     setTasks([...tasks, newTask]);
     setInputValue("");
+  }
+
+  function handleDeleteTask(id) {
+    const newTasks = tasks.filter((task) => task.id !== id);
+    setTasks(newTasks);
+  }
+
+  function handleStatusChange(id, newStatus) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, status: newStatus };
+      }
+      return task;
+    });
+    setTasks(newTasks);
   }
 
   return (
@@ -32,9 +48,22 @@ function TodoApp() {
 
       <button onClick={handleAddTask}>Add</button>
 
-      {tasks.map((task) => (
-        <p key={task.id}>{task.text}</p>
-      ))}
+      <div>
+        {tasks.map((task) => (
+          <div key={task.id}>                       
+            <p>{task.text}</p>
+            <select                                 
+              value={task.status}
+              onChange={(e) => handleStatusChange(task.id, e.target.value)}
+            >
+              <option value="todo">To Do</option>
+              <option value="inprogress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+            <button onClick={() => handleDeleteTask(task.id)}>X</button>  
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
