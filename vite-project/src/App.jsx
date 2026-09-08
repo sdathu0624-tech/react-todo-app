@@ -78,21 +78,61 @@ function TodoApp() {
         onChange={(e) => setInputValue(e.target.value)}
       />
 
+      <input
+        type="date"
+        value={dateValue}
+        onChange={(e) => setDateValue(e.target.value)}
+      />
+
+      <br />
+
+      <input
+        type="text"
+        placeholder="Notes / concept (optional)"
+        value={conceptNote}
+        onChange={(e) => setConceptNote(e.target.value)}
+      />
+
       <button onClick={handleAddTask}>Add</button>
 
       <div>
         {tasks.map((task) => (
           <div key={task.id}>
             <p>{task.text}</p>
+            {task.date && (
+              <p>
+                Date: {task.date}
+              </p>
+            )}
+
+            {task.concept && (
+              <p>
+                Concept: {task.concept}
+              </p>
+            )}
+
+            <p>
+              Category:{" "}
+              {getWhenCategory(task.date) === "today"
+                ? "Today"
+                : getWhenCategory(task.date) === "tomorrow"
+                ? "Tomorrow"
+                : "Long Term"}
+            </p>
             <select
               value={task.status}
-              onChange={(e) => handleStatusChange(task.id, e.target.value)}
+              onChange={(e) =>
+                handleStatusChange(task.id, e.target.value)
+              }
             >
               <option value="todo">To Do</option>
               <option value="inprogress">In Progress</option>
               <option value="done">Done</option>
             </select>
-            <button onClick={() => handleDeleteTask(task.id)}>X</button>
+
+            <button onClick={() => handleDeleteTask(task.id)}>
+              X
+            </button>
           </div>
         ))}
       </div>
