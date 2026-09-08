@@ -3,6 +3,8 @@ import { useState } from "react";
 function TodoApp() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [dateValue, setDateValue] = useState("");
+  const [conceptNote, setConceptNote] = useState("");
 
   function handleAddTask() {
     if (inputValue === "") {
@@ -13,7 +15,7 @@ function TodoApp() {
     const newTask = {
       id: Date.now(),
       text: inputValue,
-      status: "todo",              
+      status: "todo",
     };
 
     setTasks([...tasks, newTask]);
@@ -50,9 +52,9 @@ function TodoApp() {
 
       <div>
         {tasks.map((task) => (
-          <div key={task.id}>                       
+          <div key={task.id}>
             <p>{task.text}</p>
-            <select                                 
+            <select
               value={task.status}
               onChange={(e) => handleStatusChange(task.id, e.target.value)}
             >
@@ -60,7 +62,7 @@ function TodoApp() {
               <option value="inprogress">In Progress</option>
               <option value="done">Done</option>
             </select>
-            <button onClick={() => handleDeleteTask(task.id)}>X</button>  
+            <button onClick={() => handleDeleteTask(task.id)}>X</button>
           </div>
         ))}
       </div>
