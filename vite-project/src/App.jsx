@@ -39,12 +39,18 @@ function TodoApp() {
     const newTask = {
       id: Date.now(),
       text: inputValue,
+      date: dateValue === "" ? null : dateValue,
+      concept: conceptNote === "" ? null : conceptNote,
       status: "todo",
     };
 
     setTasks([...tasks, newTask]);
+
     setInputValue("");
+    setDateValue("");
+    setConceptNote("");
   }
+
 
   function handleDeleteTask(id) {
     const newTasks = tasks.filter((task) => task.id !== id);
