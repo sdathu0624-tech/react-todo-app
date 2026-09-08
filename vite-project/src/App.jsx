@@ -6,6 +6,30 @@ function TodoApp() {
   const [dateValue, setDateValue] = useState("");
   const [conceptNote, setConceptNote] = useState("");
 
+  function getWhenCategory(dateStr) {
+    if (!dateStr) {
+      return "longterm";
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const taskDate = new Date(dateStr + "T00:00:00");
+
+    if (taskDate.getTime() === today.getTime()) {
+      return "today";
+    }
+
+    if (taskDate.getTime() === tomorrow.getTime()) {
+      return "tomorrow";
+    }
+
+    return "longterm";
+  }
+
   function handleAddTask() {
     if (inputValue === "") {
       alert("Please write something!");
