@@ -51,7 +51,6 @@ function TodoApp() {
     setConceptNote("");
   }
 
-
   function handleDeleteTask(id) {
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
@@ -62,8 +61,10 @@ function TodoApp() {
       if (task.id === id) {
         return { ...task, status: newStatus };
       }
+
       return task;
     });
+
     setTasks(newTasks);
   }
 
@@ -99,6 +100,7 @@ function TodoApp() {
         {tasks.map((task) => (
           <div key={task.id}>
             <p>{task.text}</p>
+
             {task.date && (
               <p>
                 Date: {task.date}
@@ -119,6 +121,7 @@ function TodoApp() {
                 ? "Tomorrow"
                 : "Long Term"}
             </p>
+
             <select
               value={task.status}
               onChange={(e) =>
