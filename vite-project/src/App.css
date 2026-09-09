@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: linear-gradient(#1a3a6b, #0d2140);
   padding: 40px 20px;
+  box-sizing: border-box;
 }
 
 .app-container {
