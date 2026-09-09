@@ -5,9 +5,7 @@ function TodoApp() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
-  const [filterType, setFilterType] = useState("all"); // all | today | longterm | overdue
-
-  // Figures out if a date is Today, Tomorrow, or Long Term
+  const [filterType, setFilterType] = useState("all"); 
   function getWhenCategory(dateStr) {
     if (!dateStr) {
       return "longterm";
@@ -30,7 +28,6 @@ function TodoApp() {
     return "longterm";
   }
 
-  // A task is overdue if its date has already passed and it's not marked Done
   function isOverdue(task) {
     if (!task.date || task.status === "done") {
       return false;
@@ -58,7 +55,6 @@ function TodoApp() {
     return "Long Term";
   }
 
-  // Works out which CSS class to use for a task's badge
   function badgeClass(task) {
     if (task.status === "done") {
       return "task-badge badge-completed";
@@ -85,7 +81,7 @@ function TodoApp() {
       id: Date.now(),
       text: inputValue,
       date: dateValue === "" ? null : dateValue,
-      status: "todo", // todo | inprogress | done
+      status: "todo", 
     };
 
     setTasks([...tasks, newTask]);
@@ -93,7 +89,6 @@ function TodoApp() {
     setDateValue("");
   }
 
-  // Deletion is still permanent at this stage — Trash/Restore comes later
   function handleDeleteTask(id) {
     setTasks(tasks.filter((task) => task.id !== id));
   }
