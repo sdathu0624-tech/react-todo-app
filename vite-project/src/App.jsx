@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./TodoApp.css";
+import "./App.css";
 
 function TodoApp() {
   const [tasks, setTasks] = useState([]);
@@ -216,4 +216,5 @@ function TodoApp() {
     </div>
   );
 }
+
 export default TodoApp;
