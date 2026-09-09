@@ -161,15 +161,6 @@
   color: #1c3d7a;
 }
 
-.task-date-input {
-  font-size: 12px;
-  padding: 2px 4px;
-  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
-  border: 1px solid #a9c1e0;
-  border-radius: 3px;
-  background: #eaf2ff;
-}
-
 .task-note {
   margin: 0 0 8px 0;
   color: #5a7ab0;

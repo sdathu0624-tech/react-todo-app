@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import "./TodoApp.css";
 
 function TodoApp() {
   const [tasks, setTasks] = useState([]);
@@ -144,16 +144,6 @@ function TodoApp() {
     setTasks(newTasks);
   }
 
-  function handleDateChange(id, newDate) {
-    const newTasks = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, date: newDate === "" ? null : newDate };
-      }
-      return task;
-    });
-    setTasks(newTasks);
-  }
-
   const columns = [
     { key: "todo", label: "To Do" },
     { key: "inprogress", label: "In Progress" },
@@ -206,7 +196,6 @@ function TodoApp() {
           {[
             { key: "all", label: "All Tasks" },
             { key: "today", label: "Today" },
-            { key: "tomorrow", label: "Tomorrow" },
             { key: "longterm", label: "Long Term" },
             { key: "overdue", label: "Overdue" },
           ].map((f) => (
@@ -241,14 +230,7 @@ function TodoApp() {
 
                     <p className="task-text">{task.text}</p>
 
-                    <div>
-                      <input
-                        type="date"
-                        value={task.date || ""}
-                        onChange={(e) => handleDateChange(task.id, e.target.value)}
-                        className="task-date-input"
-                      />
-                    </div>
+                    {task.date && <p className="task-note">📅 {task.date}</p>}
 
                     <select
                       value={task.status}
