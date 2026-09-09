@@ -1,4 +1,204 @@
-.counter {
+.app-background {
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(#1a3a6b, #0d2140);
+  padding: 40px 20px;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.app-heading {
+  color: #dbe6f5;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  font-style: italic;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.input-row {
+  margin-bottom: 20px;
+}
+
+.task-input {
+  padding: 8px;
+  width: 45%;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  border: 1px solid #1a3a6b;
+  border-radius: 4px;
+}
+
+.date-input {
+  padding: 8px;
+  margin-left: 5px;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  border: 1px solid #1a3a6b;
+  border-radius: 4px;
+  background: #dbe6f5;
+}
+
+.add-button {
+  padding: 8px 16px;
+  margin-left: 5px;
+  margin-top: 8px;
+  background: #dbe6f5;
+  color: #1c3d7a;
+  font-weight: bold;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  transition: all 0.15s ease;
+}
+
+.add-button:hover {
+  background: #c3d7f0;
+  transform: scale(1.05);
+}
+
+.add-button:active {
+  background: #9fb8db;
+  transform: scale(0.97);
+}
+
+.filter-row {
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 6px 14px;
+  margin: 0 5px;
+  background: transparent;
+  color: #dbe6f5;
+  border: 1px solid #dbe6f5;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+}
+
+.filter-button-active {
+  background: #dbe6f5;
+  color: #1c3d7a;
+}
+
+.board {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.column {
+  background: #dbe6f5;
+  border-radius: 10px;
+  padding: 15px;
+  width: 220px;
+  max-height: 55vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.column-heading {
+  color: #1c3d7a;
+  font-size: 18px;
+}
+
+.empty-text {
+  color: #5a7ab0;
+  font-size: 14px;
+}
+
+.task-card {
+  background: #ffffff;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #a9c1e0;
+  text-align: left;
+}
+
+.task-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+.badge-today,
+.badge-tomorrow {
+  background: #a9c1e0;
+  color: #1c3d7a;
+}
+
+.badge-longterm {
+  background: #1a3a6b;
+  color: white;
+}
+
+.badge-overdue {
+  background: #c0392b;
+  color: white;
+}
+
+.badge-completed {
+  background: #2e8b57;
+  color: white;
+}
+
+.badge-completed-late {
+  background: #e08e0b;
+  color: white;
+}
+
+.task-text {
+  margin: 4px 0 8px 0;
+  color: #1c3d7a;
+}
+
+.task-date-input {
+  font-size: 12px;
+  padding: 2px 4px;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  border: 1px solid #a9c1e0;
+  border-radius: 3px;
+  background: #eaf2ff;
+}
+
+.task-note {
+  margin: 0 0 8px 0;
+  color: #5a7ab0;
+  font-size: 13px;
+}
+
+.status-select {
+  margin-right: 5px;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+}
+
+.delete-button {
+  background: #1a3a6b;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.restore-button {
+  background: #2e8b57;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 5px;
+}.counter {
   font-size: 16px;
   padding: 5px 10px;
   border-radius: 5px;
