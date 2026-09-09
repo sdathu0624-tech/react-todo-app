@@ -1,15 +1,17 @@
 import { useState } from "react";
-import "./App.css";
+import "./TodoApp.css";
 
 function TodoApp() {
   const [tasks, setTasks] = useState([]);
-  const [deletedTasks, setDeletedTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
-  const [filterType, setFilterType] = useState("all");
+  const [filterType, setFilterType] = useState("all"); // all | today | longterm | overdue
 
-  function getWhenCategory(date) {
-    if (!date) return "longterm";
+  // Figures out if a date is Today, Tomorrow, or Long Term
+  function getWhenCategory(dateStr) {
+    if (!dateStr) {
+      return "longterm";
+    }
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -17,41 +19,59 @@ function TodoApp() {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
-    const taskDate = new Date(date + "T00:00:00");
+    const taskDate = new Date(dateStr + "T00:00:00");
 
-    if (taskDate.getTime() === today.getTime()) return "today";
-    if (taskDate.getTime() === tomorrow.getTime()) return "tomorrow";
-    if (taskDate < today) return "overdue";
-
+    if (taskDate.getTime() === today.getTime()) {
+      return "today";
+    }
+    if (taskDate.getTime() === tomorrow.getTime()) {
+      return "tomorrow";
+    }
     return "longterm";
   }
 
-  function getWhenLabel(task) {
-    const category = getWhenCategory(task.date);
-
-    if (task.status === "done") {
-      return category === "overdue" ? "Completed Late" : "Completed";
+  // A task is overdue if its date has already passed and it's not marked Done
+  function isOverdue(task) {
+    if (!task.date || task.status === "done") {
+      return false;
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const taskDate = new Date(task.date + "T00:00:00");
+
+    return taskDate.getTime() < today.getTime();
+  }
+
+  function whenLabel(task) {
+    if (task.status === "done") {
+      return "Completed";
+    }
+
+    if (isOverdue(task)) {
+      return "Overdue";
+    }
+
+    const category = getWhenCategory(task.date);
     if (category === "today") return "Today";
     if (category === "tomorrow") return "Tomorrow";
-    if (category === "overdue") return "Overdue";
-
     return "Long Term";
   }
 
-  function getBadgeClass(task) {
-    const category = getWhenCategory(task.date);
-
+  // Works out which CSS class to use for a task's badge
+  function badgeClass(task) {
     if (task.status === "done") {
-      return category === "overdue"
-        ? "task-badge badge-completed-late"
-        : "task-badge badge-completed";
+      return "task-badge badge-completed";
     }
 
-    if (category === "overdue") return "task-badge badge-overdue";
-    if (category === "longterm") return "task-badge badge-longterm";
+    if (isOverdue(task)) {
+      return "task-badge badge-overdue";
+    }
 
+    const category = getWhenCategory(task.date);
+    if (category === "longterm") {
+      return "task-badge badge-longterm";
+    }
     return "task-badge badge-today";
   }
 
@@ -65,7 +85,7 @@ function TodoApp() {
       id: Date.now(),
       text: inputValue,
       date: dateValue === "" ? null : dateValue,
-      status: "todo",
+      status: "todo", // todo | inprogress | done
     };
 
     setTasks([...tasks, newTask]);
@@ -73,30 +93,19 @@ function TodoApp() {
     setDateValue("");
   }
 
+  // Deletion is still permanent at this stage — Trash/Restore comes later
   function handleDeleteTask(id) {
-    const task = tasks.find((task) => task.id === id);
-
     setTasks(tasks.filter((task) => task.id !== id));
-    setDeletedTasks([...deletedTasks, task]);
   }
 
-  function handleRestoreTask(id) {
-    const task = deletedTasks.find((task) => task.id === id);
-
-    setDeletedTasks(deletedTasks.filter((task) => task.id !== id));
-    setTasks([...tasks, task]);
-  }
-
-  function handlePermanentDelete(id) {
-    setDeletedTasks(deletedTasks.filter((task) => task.id !== id));
-  }
-
-  function handleStatusChange(id, status) {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, status } : task
-      )
-    );
+  function handleStatusChange(id, newStatus) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, status: newStatus };
+      }
+      return task;
+    });
+    setTasks(newTasks);
   }
 
   const columns = [
@@ -107,10 +116,15 @@ function TodoApp() {
 
   function getTasksForColumn(columnKey) {
     return tasks.filter((task) => {
-      if (task.status !== columnKey) return false;
-
-      if (filterType === "all") return true;
-
+      if (task.status !== columnKey) {
+        return false;
+      }
+      if (filterType === "all") {
+        return true;
+      }
+      if (filterType === "overdue") {
+        return isOverdue(task);
+      }
       return getWhenCategory(task.date) === filterType;
     });
   }
@@ -133,7 +147,7 @@ function TodoApp() {
             type="date"
             value={dateValue}
             onChange={(e) => setDateValue(e.target.value)}
-            title="Pick a date"
+            title="Pick a date (leave empty for Long Term)"
             className="date-input"
           />
 
@@ -148,109 +162,60 @@ function TodoApp() {
             { key: "today", label: "Today" },
             { key: "longterm", label: "Long Term" },
             { key: "overdue", label: "Overdue" },
-          ].map((filter) => (
+          ].map((f) => (
             <button
-              key={filter.key}
-              onClick={() => setFilterType(filter.key)}
+              key={f.key}
+              onClick={() => setFilterType(f.key)}
               className={
-                filterType === filter.key
+                filterType === f.key
                   ? "filter-button filter-button-active"
                   : "filter-button"
               }
             >
-              {filter.label}
+              {f.label}
             </button>
           ))}
         </div>
 
         <div className="board">
           {columns
-            .filter(
-              (column) =>
-                !(filterType === "overdue" && column.key === "done")
-            )
-            .map((column) => {
-              const columnTasks = getTasksForColumn(column.key);
+            .filter((column) => !(filterType === "overdue" && column.key === "done"))
+            .map((column) => (
+              <div key={column.key} className="column">
+                <h2 className="column-heading">{column.label}</h2>
 
-              return (
-                <div key={column.key} className="column">
-                  <h2 className="column-heading">{column.label}</h2>
-
-                  {columnTasks.length === 0 && (
-                    <p className="empty-text">Nothing here</p>
-                  )}
-
-                  {columnTasks.map((task) => (
-                    <div key={task.id} className="task-card">
-                      <span className={getBadgeClass(task)}>
-                        {getWhenLabel(task)}
-                      </span>
-
-                      <p className="task-text">{task.text}</p>
-
-                      {task.date && (
-                        <p className="task-note">📅 {task.date}</p>
-                      )}
-
-                      <select
-                        value={task.status}
-                        onChange={(e) =>
-                          handleStatusChange(task.id, e.target.value)
-                        }
-                        className="status-select"
-                      >
-                        <option value="todo">To Do</option>
-                        <option value="inprogress">In Progress</option>
-                        <option value="done">Done</option>
-                      </select>
-
-                      <button
-                        onClick={() => handleDeleteTask(task.id)}
-                        className="delete-button"
-                      >
-                        X
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              );
-            })}
-
-          <div className="column">
-            <h2 className="column-heading">Trash</h2>
-
-            {deletedTasks.length === 0 && (
-              <p className="empty-text">Nothing here</p>
-            )}
-
-            {deletedTasks.map((task) => (
-              <div key={task.id} className="task-card">
-                <span className={getBadgeClass(task)}>
-                  {getWhenLabel(task)}
-                </span>
-
-                <p className="task-text">{task.text}</p>
-
-                {task.date && (
-                  <p className="task-note">📅 {task.date}</p>
+                {getTasksForColumn(column.key).length === 0 && (
+                  <p className="empty-text">Nothing here</p>
                 )}
 
-                <button
-                  onClick={() => handleRestoreTask(task.id)}
-                  className="restore-button"
-                >
-                  Restore
-                </button>
+                {getTasksForColumn(column.key).map((task) => (
+                  <div key={task.id} className="task-card">
+                    <span className={badgeClass(task)}>{whenLabel(task)}</span>
 
-                <button
-                  onClick={() => handlePermanentDelete(task.id)}
-                  className="delete-button"
-                >
-                  X
-                </button>
+                    <p className="task-text">{task.text}</p>
+
+                    {task.date && <p className="task-note">📅 {task.date}</p>}
+
+                    <select
+                      value={task.status}
+                      onChange={(e) => handleStatusChange(task.id, e.target.value)}
+                      className="status-select"
+                    >
+                      <option value="todo">To Do</option>
+                      <option value="inprogress">In Progress</option>
+                      <option value="done">Done</option>
+                    </select>
+
+                    <button
+                      onClick={() => handleDeleteTask(task.id)}
+                      className="delete-button"
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
               </div>
             ))}
-          </div>
         </div>
       </div>
     </div>
