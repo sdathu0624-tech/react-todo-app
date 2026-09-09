@@ -216,5 +216,4 @@ function TodoApp() {
     </div>
   );
 }
-
 export default TodoApp;
