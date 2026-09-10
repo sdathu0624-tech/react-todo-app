@@ -179,10 +179,6 @@
   gap: 4px;
 }
 
-.task-note svg {
-  flex-shrink: 0;
-}
-
 .status-select {
   margin-right: 5px;
   font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;

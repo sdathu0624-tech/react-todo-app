@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import { Calendar, FileText } from "lucide-react";
 
 function TodoApp() {
   const [tasks, setTasks] = useState([]);
@@ -188,16 +187,13 @@ function TodoApp() {
                       <p className="task-text">{task.text}</p>
 
                       {task.date && (
-                        <p className="task-note">
-                          <Calendar size={16} /> {task.date}
-                        </p>
+                        <p className="task-note">📅 {task.date}</p>
                       )}
 
                       {task.note && (
-                        <p className="task-note">
-                          <FileText size={16} /> {task.note}
-                        </p>
+                        <p className="task-note">📝 {task.note}</p>
                       )}
+
                       <select
                         value={task.status}
                         onChange={(e) =>
