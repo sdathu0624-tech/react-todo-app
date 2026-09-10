@@ -3,7 +3,6 @@
   min-height: 100vh;
   background: linear-gradient(#1a3a6b, #0d2140);
   padding: 40px 20px;
-
 }
 
 .app-container {
@@ -40,6 +39,15 @@
   border: 1px solid #1a3a6b;
   border-radius: 4px;
   background: #dbe6f5;
+}
+
+.note-input {
+  padding: 8px;
+  width: 45%;
+  margin-top: 8px;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  border: 1px solid #1a3a6b;
+  border-radius: 4px;
 }
 
 .add-button {
@@ -166,6 +174,9 @@
   margin: 0 0 8px 0;
   color: #5a7ab0;
   font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .status-select {
@@ -180,14 +191,4 @@
   padding: 4px 8px;
   border-radius: 3px;
   cursor: pointer;
-}
-
-.restore-button {
-  background: #2e8b57;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin-right: 5px;
 }
