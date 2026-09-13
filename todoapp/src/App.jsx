@@ -5,7 +5,6 @@ function TodoApp() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
-  const [noteValue, setNoteValue] = useState("");
   const [filterType, setFilterType] = useState("all");
 
   function getWhenCategory(date) {
@@ -65,14 +64,12 @@ function TodoApp() {
       id: Date.now(),
       text: inputValue,
       date: dateValue === "" ? null : dateValue,
-      note: noteValue === "" ? null : noteValue,
       status: "todo",
     };
 
     setTasks([...tasks, newTask]);
     setInputValue("");
     setDateValue("");
-    setNoteValue("");
   }
 
   function handleDeleteTask(id) {
@@ -123,16 +120,6 @@ function TodoApp() {
             onChange={(e) => setDateValue(e.target.value)}
             title="Pick a date"
             className="date-input"
-          />
-
-          <br />
-
-          <input
-            type="text"
-            placeholder="Note / description (optional)"
-            value={noteValue}
-            onChange={(e) => setNoteValue(e.target.value)}
-            className="note-input"
           />
 
           <button onClick={handleAddTask} className="add-button">
@@ -188,10 +175,6 @@ function TodoApp() {
 
                       {task.date && (
                         <p className="task-note">📅 {task.date}</p>
-                      )}
-
-                      {task.note && (
-                        <p className="task-note">📝 {task.note}</p>
                       )}
 
                       <select
