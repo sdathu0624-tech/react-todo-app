@@ -39,21 +39,7 @@
   border: 1px solid #1a3a6b;
   border-radius: 4px;
   background: #dbe6f5;
-  color:#1c3d7a;
-}
-
-.date-input::-webkit-calendar-picker-indicator {
-  opacity: 1;
-  cursor: pointer;
-}
-
-.note-input {
-  padding: 8px;
-  width: 45%;
-  margin-top: 8px;
-  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
-  border: 1px solid #1a3a6b;
-  border-radius: 4px;
+  color: #1c3d7a;
 }
 
 .add-button {
