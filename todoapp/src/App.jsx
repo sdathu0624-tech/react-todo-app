@@ -5,7 +5,6 @@ function TodoApp() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
-  const [filterType, setFilterType] = useState("all");
 
   function getWhenCategory(date) {
     if (!date) return "longterm";
@@ -91,13 +90,7 @@ function TodoApp() {
   ];
 
   function getTasksForColumn(columnKey) {
-    return tasks.filter((task) => {
-      if (task.status !== columnKey) return false;
-
-      if (filterType === "all") return true;
-
-      return getWhenCategory(task.date) === filterType;
-    });
+    return tasks.filter((task) => task.status === columnKey);
   }
 
   return (
@@ -127,34 +120,8 @@ function TodoApp() {
           </button>
         </div>
 
-        <div className="filter-row">
-          {[
-            { key: "all", label: "All Tasks" },
-            { key: "today", label: "Today" },
-            { key: "longterm", label: "Long Term" },
-            { key: "overdue", label: "Overdue" },
-          ].map((filter) => (
-            <button
-              key={filter.key}
-              onClick={() => setFilterType(filter.key)}
-              className={
-                filterType === filter.key
-                  ? "filter-button filter-button-active"
-                  : "filter-button"
-              }
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-
         <div className="board">
-          {columns
-            .filter(
-              (column) =>
-                !(filterType === "overdue" && column.key === "done")
-            )
-            .map((column) => {
+          {columns.map((column) => {
               const columnTasks = getTasksForColumn(column.key);
 
               return (
